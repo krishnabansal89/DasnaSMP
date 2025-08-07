@@ -2,10 +2,10 @@
 FROM eclipse-temurin:21-jre-alpine
 
 # Install necessary packages
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     wget \
     curl \
-    && rm -rf /var/lib/apt/lists/*
+    bash
 
 # Create minecraft user and directory
 RUN useradd -m -u 1000 minecraft
