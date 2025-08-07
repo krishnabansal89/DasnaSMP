@@ -1,5 +1,5 @@
 # Minecraft SMP Server Dockerfile
-FROM openjdk:21-jre-slim
+FROM eclipse-temurin:21-jre-alpine
 
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
