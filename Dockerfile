@@ -1,14 +1,15 @@
 # Minecraft SMP Server Dockerfile
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 # Install necessary packages
 RUN apk add --no-cache \
     wget \
     curl \
-    bash
+    bash \
+    ncurses
 
 # Create minecraft user and directory
-RUN useradd -m -u 1000 minecraft
+RUN adduser -D -u 1000 minecraft
 WORKDIR /minecraft
 RUN chown minecraft:minecraft /minecraft
 
@@ -96,11 +97,11 @@ RUN echo '#!/bin/bash' > start.sh && \
 EXPOSE 25565
 
 # Create volumes for persistent data
-VOLUME ["/minecraft/world", "/minecraft/plugins", "/minecraft/logs"]
+VOLUME ["/minecraft/world", "/minecraft/plugins", "/minecraft/logs", "/minecraft/server.properties", "/minecraft/eula.txt"]
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:25565 || exit 1
+    CMD echo "ping" | nc localhost 25565 || exit 1
 
 # Start the server
 CMD ["./start.sh"]

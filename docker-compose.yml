@@ -1,23 +1,24 @@
 version: '3.8'
+
 services:
-  minecraft:
+  minecraft-smp:
     build: .
     container_name: minecraft-smp
+    restart: unless-stopped
     ports:
       - "25565:25565"
+    volumes:
+      - ./data/world:/minecraft/world
+      - ./data/plugins:/minecraft/plugins
+      - ./data/logs:/minecraft/logs
+      - ./data/server.properties:/minecraft/server.properties
+      - ./data/eula.txt:/minecraft/eula.txt
     environment:
       - MEMORY_SIZE=2G
       - MINECRAFT_VERSION=1.21.1
-    volumes:
-      - minecraft_world:/minecraft/world
-      - minecraft_plugins:/minecraft/plugins
-      - minecraft_logs:/minecraft/logs
-      - ./server.properties:/minecraft/server.properties:rw
-    restart: unless-stopped
-    stdin_open: true
-    tty: true
+    networks:
+      - minecraft-network
 
-volumes:
-  minecraft_world:
-  minecraft_plugins:
-  minecraft_logs:
+networks:
+  minecraft-network:
+    driver: bridge
