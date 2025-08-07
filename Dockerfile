@@ -1,5 +1,5 @@
 # Minecraft SMP Server Dockerfile
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 # Install necessary packages
 RUN apk add --no-cache \
